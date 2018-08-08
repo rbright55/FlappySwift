@@ -10,6 +10,8 @@
 		04ADFD57211AA30C00CAB40D /* ProxyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04ADFD56211AA30C00CAB40D /* ProxyManager.swift */; };
 		04ADFD59211AA44800CAB40D /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04ADFD58211AA44800CAB40D /* Keys.swift */; };
 		04ADFD5B211AA45F00CAB40D /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 04ADFD5A211AA45F00CAB40D /* Keys.plist */; };
+		04ADFD63211AB27800CAB40D /* libFMCSecurity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04ADFD62211AB27800CAB40D /* libFMCSecurity.a */; };
+		04ADFD65211AB28300CAB40D /* libFMCSecurity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04ADFD64211AB28300CAB40D /* libFMCSecurity.a */; };
 		42556E53018EB910C683AE69 /* Pods_FlappyBirdTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD5F6C25D4F74299A9EF24E8 /* Pods_FlappyBirdTests.framework */; };
 		43745200193D163700654986 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437451FF193D163700654986 /* AppDelegate.swift */; };
 		43745202193D163700654986 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 43745201193D163700654986 /* GameScene.sks */; };
@@ -37,6 +39,9 @@
 		04ADFD56211AA30C00CAB40D /* ProxyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProxyManager.swift; sourceTree = "<group>"; };
 		04ADFD58211AA44800CAB40D /* Keys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keys.swift; sourceTree = "<group>"; };
 		04ADFD5A211AA45F00CAB40D /* Keys.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Keys.plist; sourceTree = "<group>"; };
+		04ADFD61211AB18800CAB40D /* BridgingHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BridgingHeader.h; sourceTree = "<group>"; };
+		04ADFD62211AB27800CAB40D /* libFMCSecurity.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFMCSecurity.a; path = FMCSecurity/FMCSecurity/debug/libFMCSecurity.a; sourceTree = "<group>"; };
+		04ADFD64211AB28300CAB40D /* libFMCSecurity.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFMCSecurity.a; path = FMCSecurity/FMCSecurity/release/libFMCSecurity.a; sourceTree = "<group>"; };
 		437451FA193D163700654986 /* FlappyBird.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlappyBird.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		437451FE193D163700654986 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		437451FF193D163700654986 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -63,6 +68,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04ADFD65211AB28300CAB40D /* libFMCSecurity.a in Frameworks */,
+				04ADFD63211AB27800CAB40D /* libFMCSecurity.a in Frameworks */,
 				9AEFBB35693403997E6DD2DE /* Pods_FlappyBird.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -82,6 +89,7 @@
 			isa = PBXGroup;
 			children = (
 				04ADFD56211AA30C00CAB40D /* ProxyManager.swift */,
+				04ADFD61211AB18800CAB40D /* BridgingHeader.h */,
 			);
 			name = SDL;
 			sourceTree = "<group>";
@@ -89,6 +97,8 @@
 		298DBB550AA7F908B9425B6A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				04ADFD62211AB27800CAB40D /* libFMCSecurity.a */,
+				04ADFD64211AB28300CAB40D /* libFMCSecurity.a */,
 				F9D497269E10A20B3A2D357B /* Pods_FlappyBird.framework */,
 				CD5F6C25D4F74299A9EF24E8 /* Pods_FlappyBirdTests.framework */,
 			);
@@ -183,6 +193,7 @@
 				437451F7193D163700654986 /* Frameworks */,
 				437451F8193D163700654986 /* Resources */,
 				03223FCB0499D65396800C74 /* [CP] Embed Pods Frameworks */,
+				04ADFD60211AB13100CAB40D /* Finalizer */,
 			);
 			buildRules = (
 			);
@@ -298,6 +309,20 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FlappyBird/Pods-FlappyBird-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		04ADFD60211AB13100CAB40D /* Finalizer */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = Finalizer;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [[ \"${CONFIGURATION}\" == \"Release\" ]]; then\n\nFINALIZE_DIR=\"${SRCROOT}/FMCSecurity/finalizer/common\"\nLIB_DIR=\"${SRCROOT}/FMCSecurity/FMCSecurity\"\n\necho $FINALIZE_DIR\necho $LIB_DIR\n\nif [[ ! -e \"$FINALIZE_DIR/xcode-finalize-protection.py\" ]]; then\necho \"${SRCROOT}/FMCSecurity/xcode-finalize-protection.py does not exist. Please update the Finalize Protection Build Phase in the Xcode project with the correct path to the xcode-finalize-protection.py script in the Finalizer installation.\"\nexit 1\nfi\n\nFINALIZE=\"$FINALIZE_DIR/xcode-finalize-protection.py -prefinalized-library\"\n\n${FINALIZE} \"$LIB_DIR/release/libFMCSecurity.a\"\n\nfi\n";
+		};
 		F2011E33D3937F0DD360BA10 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -408,6 +433,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -425,7 +451,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/FMCSecurity/FMCSecurity/common";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_GENERATE_MAP_FILE = YES;
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/FMCSecurity/FMCSecurity/debug";
 				METAL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -463,6 +492,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
+				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -473,7 +503,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/FMCSecurity/FMCSecurity/common";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_GENERATE_MAP_FILE = YES;
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/FMCSecurity/FMCSecurity/release";
 				METAL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -490,8 +523,13 @@
 				DEVELOPMENT_TEAM = L5EP8QQ48K;
 				INFOPLIST_FILE = FlappyBird/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/FMCSecurity/FMCSecurity/release",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.brightryan.FlappyBird;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/FlappyBird/BridgingHeader.h";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
 			};
@@ -505,8 +543,13 @@
 				DEVELOPMENT_TEAM = L5EP8QQ48K;
 				INFOPLIST_FILE = FlappyBird/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/FMCSecurity/FMCSecurity/debug",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.brightryan.FlappyBird;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/FlappyBird/BridgingHeader.h";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
 			};

@@ -27,6 +27,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
     let pipeCategory: UInt32 = 1 << 2
     let scoreCategory: UInt32 = 1 << 3
     
+    override init() {
+        super.init()
+        NotificationCenter.default.addObserver(self, selector: #selector(self.touchesBegan(_:with:)), name: Notification.Name("sdl.ScreenTapped"), object: nil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
+
     override func didMove(to view: SKView) {
         
         canRestart = true

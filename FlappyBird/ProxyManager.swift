@@ -19,23 +19,36 @@ class ProxyManager: NSObject {
     private var latestHMILevel:SDLHMILevel = .none
     
     //viewcontroller to send to hmi
-    var sdlViewController:UIViewController? = UIViewController()
+    var _sdlVC:UIViewController?
+    var sdlViewController: UIViewController {
+        get {
+            if _sdlVC == nil {
+                return UIViewController()
+            }
+            return _sdlVC!
+        }
+        set {
+            _sdlVC = newValue
+            sdlManager.streamManager?.rootViewController = newValue
+        }
+    }
     
     private var sdlManager:SDLManager!
     static let sharedManager = ProxyManager() //Singleton
     
     override init() {
         super.init()
-        
+        self.setupManager()
+        NotificationCenter.default.addObserver(self, selector: #selector(self.touchEventAvailable(notification:)), name: NSNotification.Name.SDLDidReceiveTouchEvent, object: nil)
     }
     private func setupManager(){
         let lifecycleConfiguration = SDLLifecycleConfiguration(appName: self.appName, appId: self.appID)
-        let appIcon = SDLArtwork(image: #imageLiteral(resourceName: "Antelope"), name: "Antelope", persistent: true, as: .PNG)
+        let appIcon = SDLArtwork(image: #imageLiteral(resourceName: "bird-01.png"), name: "Flappy", persistent: true, as: .PNG)
         lifecycleConfiguration.appIcon = appIcon
         lifecycleConfiguration.shortAppName = self.shortAppName
         lifecycleConfiguration.appType = self.appType
 
-        let streamingConfig = SDLStreamingMediaConfiguration(securityManagers: [FMCSecurityManager.self], encryptionFlag: SDLStreamingEncryptionFlag.none, videoSettings: nil, dataSource: self, rootViewController: self.sdlViewController)
+        let streamingConfig = SDLStreamingMediaConfiguration(securityManagers: [FMCSecurityManager.self], encryptionFlag: SDLStreamingEncryptionFlag.none, videoSettings: nil, dataSource: nil, rootViewController: self.sdlViewController)
         streamingConfig.carWindowRenderingType = .viewAfterScreenUpdates
         
         let logConfig = SDLLogConfiguration.debug()
@@ -64,6 +77,14 @@ class ProxyManager: NSObject {
         }
         self.setupManager()
         self.connect()
+    }
+    @objc func touchEventAvailable(notification: SDLRPCNotificationNotification) {
+        guard (notification.notification.isKind(of: SDLOnTouchEvent.self)) else { return }
+        let onTouchEvent = notification.notification as! SDLOnTouchEvent
+        if onTouchEvent.type == SDLTouchType.begin {
+            //tap screen
+            NotificationCenter.default.post(Notification.init(name: Notification.Name("sdl.ScreenTapped")))
+        }
     }
 }
 
