@@ -63,12 +63,16 @@ class ProxyManager: NSObject {
         sdlManager.start(readyHandler: {(success,error) in
             if success {
                 self.isConnected = true
+                //make sure app doesn't fall asleep
+                UIApplication.shared.isIdleTimerDisabled = true
             }
         })
     }
     
     public func disconnect() {
         sdlManager.stop()
+        //don't need to make sure app doesn't fall asleep
+        UIApplication.shared.isIdleTimerDisabled = false
     }
     
     func cycleProxy() {

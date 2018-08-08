@@ -1,28 +1,100 @@
-# Xcode
-#
+# Compiled source #
+###################
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+*.pbxproj
+
+# Packages #
+############
+# it's better to unpack these files and commit the raw source
+# git has its own built in compression methods
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# Logs and databases #
+######################
+*.log
+*.sql
+*.sqlite
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
+
+# OS X temporary files #
+########################
+*.swp
+*.lock
+profile
+
+# Xcode temporary files #
+#########################
+*~.nib
+
+# Xcode build files #
+#####################
+DerivedData/
 build/
+
+# Xcode private settings #
+##########################
 *.pbxuser
-!default.pbxuser
 *.mode1v3
-!default.mode1v3
 *.mode2v3
-!default.mode2v3
 *.perspectivev3
+!default.pbxuser
+!default.mode1v3
+!default.mode2v3
 !default.perspectivev3
+
+# Xcode semi-personal settings #
+###############################
 xcuserdata
 *.xccheckout
-*.moved-aside
-DerivedData
+*.xcscmblueprint
 *.hmap
 *.ipa
 *.xcuserstate
 
-# CocoaPods
-#
-# We recommend against adding the Pods directory to your .gitignore. However
-# you should judge for yourself, the pros and cons are mentioned at:
-# http://guides.cocoapods.org/using/using-cocoapods.html#should-i-ignore-the-pods-directory-in-source-control
-#
+
+# Xcode workspaces #
+####################
+!xcshareddata
+*.xcworkspace
+
+# Xcode deprecated classes #
+############################
+*.moved-aside
+
+# Random temporary files #
+##########################
+.pliste
+.pbxproje
+
+# Cocoapods #
+#############
 Pods/
 
-.DS_Store
+Applink.framework
+
+SmartDeviceLink.framework
+
+FMCSecurity/
+Keys.plist
