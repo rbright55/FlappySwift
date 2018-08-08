@@ -2,6 +2,15 @@
 This integrates smartdevice link into the flappy bird game to be played in vehicle.
 For test purposes only. Potentially very dangerous to play games while driving.
 https://smartdevicelink.com/
+## Getting Started
+Flappy swift for SDL requires a few things to be done in order to get running.
+### 1. Installing CocoaPods
+Run `pod install` from root project directory.
+### 2. Setting up AppID and AppName
+Create a propertylist file called `Keys.plist`. 
+Setup 2 new items in the plist. (`sdl-app-name`, `sdl-app-id`)
+### 3. Installing the security library
+Install in the root project directory, in the same location as FlappyBird.xcodeproj. This is where the project will look for it.
 
 # FlappySwift
 An implementation of Flappy Bird in Swift for iOS 8.
