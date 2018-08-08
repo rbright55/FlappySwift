@@ -1,6 +1,7 @@
 # Info
 This integrates smartdevice link into the flappy bird game to be played in vehicle.
 For test purposes only. Potentially very dangerous to play games while driving.
+https://smartdevicelink.com/
 
 # FlappySwift
 An implementation of Flappy Bird in Swift for iOS 8.
