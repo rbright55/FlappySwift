@@ -9,7 +9,7 @@
 import SpriteKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate{
-    let verticalPipeGap = 190.0
+    let verticalPipeGap = 160.0
     
     var bird:SKSpriteNode!
     var skyColor:SKColor!
@@ -176,7 +176,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         pipePair.position = CGPoint( x: self.frame.size.width + pipeTextureUp.size().width, y: 0 )
         pipePair.zPosition = -10
         
-        let height = UInt32( self.frame.size.height / 4)
+        let height = UInt32( self.frame.size.height / 6)
         let y = Double(arc4random_uniform(height) + height)
         
         let pipeDown = SKSpriteNode(texture: pipeTextureDown)
