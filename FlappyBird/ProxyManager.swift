@@ -43,8 +43,8 @@ class ProxyManager: NSObject {
     }
     private func setupManager(){
         let lifecycleConfiguration = SDLLifecycleConfiguration(appName: self.appName, appId: self.appID)
-        let appIcon = SDLArtwork(image: #imageLiteral(resourceName: "bird-01.png"), name: "Flappy", persistent: true, as: .PNG)
-        lifecycleConfiguration.appIcon = appIcon
+        //let appIcon = SDLArtwork(image: , name: "Flappy", persistent: true, as: .PNG)
+        //lifecycleConfiguration.appIcon = appIcon
         lifecycleConfiguration.shortAppName = self.shortAppName
         lifecycleConfiguration.appType = self.appType
 
