@@ -9,7 +9,7 @@
 import SpriteKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate{
-    let verticalPipeGap = 150.0
+    let verticalPipeGap = 190.0
     
     var bird:SKSpriteNode!
     var skyColor:SKColor!
@@ -27,15 +27,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
     let pipeCategory: UInt32 = 1 << 2
     let scoreCategory: UInt32 = 1 << 3
     
-    override init() {
-        super.init()
-        NotificationCenter.default.addObserver(self, selector: #selector(self.touchesBegan(_:with:)), name: Notification.Name("sdl.ScreenTapped"), object: nil)
+    override func sceneDidLoad() {
+        NotificationCenter.default.addObserver(self, selector: #selector(self.touchEventAvailable(notification:)), name: NSNotification.Name.SDLDidReceiveTouchEvent, object: nil)
     }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+    @objc func touchEventAvailable(notification: SDLRPCNotificationNotification) {
+        guard (notification.notification.isKind(of: SDLOnTouchEvent.self)) else { return }
+        let onTouchEvent = notification.notification as! SDLOnTouchEvent
+        if onTouchEvent.type == SDLTouchType.begin {
+            if moving.speed > 0  {
+                bird.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
+                bird.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 25))
+            } else if canRestart {
+                self.resetScene()
+            }
+        }
     }
-    
 
     override func didMove(to view: SKView) {
         
@@ -73,9 +79,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         
         // skyline
         var skyTexture = SKTexture(image: #imageLiteral(resourceName: "sky"))
-        var skyTextSize = CGRect(origin: CGPoint.zero, size: skyTexture.size())
+        let skyTextSize = CGRect(origin: CGPoint.zero, size: skyTexture.size())
         UIGraphicsBeginImageContext((CGSize(width: (self.view?.frame.width)!, height: skyTexture.size().height)))
-        var context = UIGraphicsGetCurrentContext()
+        let context = UIGraphicsGetCurrentContext()
         if #available(iOS 9.0, *) {
             context?.draw(skyTexture.cgImage(), in:skyTextSize, byTiling: true)
         } else {
@@ -228,9 +234,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         // Restart animation
         moving.speed = 1
     }
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>?, with event: UIEvent?) {
         if moving.speed > 0  {
-            for _ in touches { // do we need all touches?
+            for _ in touches! { // do we need all touches?
                 bird.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
                 bird.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 25))
             }

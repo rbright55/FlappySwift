@@ -47,6 +47,7 @@ class GameViewController: UIViewController {
             scene.scaleMode = .aspectFill
             
             skView.presentScene(scene)
+            
         }
         ProxyManager.sharedManager.sdlViewController = self
     }
