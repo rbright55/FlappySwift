@@ -62,7 +62,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         }
         
         // skyline
-        let skyTexture = SKTexture(imageNamed: "sky")
+        var skyTexture = SKTexture(image: #imageLiteral(resourceName: "sky"))
+        var skyTextSize = CGRect(origin: CGPoint.zero, size: skyTexture.size())
+        UIGraphicsBeginImageContext((CGSize(width: (self.view?.frame.width)!, height: skyTexture.size().height)))
+        var context = UIGraphicsGetCurrentContext()
+        if #available(iOS 9.0, *) {
+            context?.draw(skyTexture.cgImage(), in:skyTextSize, byTiling: true)
+        } else {
+            // Fallback on earlier versions
+        }
+        let tiledSky = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        skyTexture = SKTexture(image: tiledSky!)
+        
         skyTexture.filteringMode = .nearest
         
         let moveSkySprite = SKAction.moveBy(x: -skyTexture.size().width * 2.0, y: 0, duration: TimeInterval(0.1 * skyTexture.size().width * 2.0))
@@ -72,7 +84,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         for i in 0 ..< 2 + Int(self.frame.size.width / ( skyTexture.size().width * 2 )) {
             let i = CGFloat(i)
             let sprite = SKSpriteNode(texture: skyTexture)
+            
             sprite.setScale(2.0)
+            sprite.yScale = -1
             sprite.zPosition = -20
             sprite.position = CGPoint(x: i * sprite.size.width, y: sprite.size.height / 2.0 + groundTexture.size().height * 2.0)
             sprite.run(moveSkySpritesForever)
@@ -143,7 +157,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
     
     func spawnPipes() {
         let pipePair = SKNode()
-        pipePair.position = CGPoint( x: self.frame.size.width + pipeTextureUp.size().width * 2, y: 0 )
+        pipePair.position = CGPoint( x: self.frame.size.width + pipeTextureUp.size().width, y: 0 )
         pipePair.zPosition = -10
         
         let height = UInt32( self.frame.size.height / 4)
@@ -188,7 +202,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         bird.position = CGPoint(x: self.frame.size.width / 2.5, y: self.frame.midY)
         bird.physicsBody?.velocity = CGVector( dx: 0, dy: 0 )
         bird.physicsBody?.collisionBitMask = worldCategory | pipeCategory
-        bird.speed = 1.0
+        bird.speed = 1.5
         bird.zRotation = 0.0
         
         // Remove all existing pipes
@@ -208,7 +222,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         if moving.speed > 0  {
             for _ in touches { // do we need all touches?
                 bird.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
-                bird.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 30))
+                bird.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 25))
             }
         } else if canRestart {
             self.resetScene()
